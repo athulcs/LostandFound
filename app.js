@@ -112,7 +112,7 @@ app.post('/verifyuser', function(req, res){
 app.post('/submitreport', function(req, res){
   console.log('Pushing submission to database');
   console.log(req.body);
- var founditem = {item: req.body.itname,descr: req.body.desc,fname: req.body.fname, email: req.body.email, phone: req.body.phnnum,foundon: req.body.foundate};
+ var founditem = {item: req.body.itname,descr: req.body.desc,fname: req.body.fname, email: req.body.email, phone: req.body.phnum ,foundon: req.body.foundate};
 
   //connection.connect();
   connection.query('INSERT INTO found SET ?', founditem, function(err,res){
