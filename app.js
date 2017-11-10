@@ -12,7 +12,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-	
+
 //connection.connect();
 
 connection.query('SELECT * from mytable1', function(err, rows, fields) {
@@ -21,7 +21,7 @@ connection.query('SELECT * from mytable1', function(err, rows, fields) {
   else
     console.log('Error while performing Query.');
 });
-
+//
 //connection.end();
 // Binding express app to port 3000
 app.listen(3000,function(){
@@ -72,7 +72,7 @@ app.post('/myaction', function(req, res) {
 	connection.query('INSERT INTO mytable1 SET ?', record, function(err,res){
 	  	if(err) throw err;
 		console.log('Last record insert id:', res.insertId);
-		
+
 	});
 
 	res.redirect('/message');
@@ -86,20 +86,20 @@ app.post('/verifyuser', function(req, res){
   console.log('checking user in database');
   console.log(req.body.pass);
   var selectString = 'SELECT COUNT(email) FROM mytable1 WHERE email="'+req.body.email+'" AND pass="'+req.body.pass+'" ';
-   
+
   connection.query(selectString, function(err, results) {
-    
+
         console.log(results);
         var string=JSON.stringify(results);
         console.log(string);
         //this is a walkaround of checking if the email pass combination is 1 or not it will fail if wrong pass is given
         if (string === '[{"COUNT(email)":1}]') {
       res.redirect('/loggedin');
-  
+
           }
         if (string === '[{"COUNT(email)":0}]')  {
           res.redirect('/showSignInPageretry');
-          
+
         }
 });
 
@@ -118,12 +118,12 @@ app.post('/submitreport', function(req, res){
   connection.query('INSERT INTO found SET ?', founditem, function(err,res){
       if(err) throw err;
     console.log('Last record insert id:', res.insertId);
-    
+
   });
 
 
 
-  
+
   res.redirect('/report');
   //connection.end();
 
@@ -142,7 +142,7 @@ app.get('/data', function(req, res){
         } else {
             obj = JSON.parse(JSON.stringify(result));
             console.log(obj);
-           res.render('found', { obj: obj });                
+           res.render('found', { obj: obj });
         }
     });
 
