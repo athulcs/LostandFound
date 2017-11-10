@@ -131,7 +131,8 @@ app.post('/submitreport', function(req, res){
 });
 
 // **********FOUND******
-var obj = {};
+app.set('view engine', 'ejs');
+var obj = [];
 app.get('/data', function(req, res){
 
     connection.query('SELECT * FROM found', function(err, result) {
@@ -139,9 +140,9 @@ app.get('/data', function(req, res){
         if(err){
             throw err;
         } else {
-            obj = {print: result};
-            console.log(result);
-           // res.render('print', obj);                
+            obj = JSON.parse(JSON.stringify(result));
+            console.log(obj);
+           res.render('found', { obj: obj });                
         }
     });
 
