@@ -112,7 +112,7 @@ app.post('/verifyuser', function(req, res){
 app.post('/submitreport', function(req, res){
   console.log('Pushing submission to database');
   console.log(req.body);
- var founditem = {item: req.body.itname,descr: req.body.desc,fname: req.body.fname, email: req.body.email, phone: req.body.phnum ,foundon: req.body.foundate};
+ var founditem = {item: req.body.itname,descr: req.body.desc,fname: req.body.fname, email: req.body.email, phone: req.body.phnum ,foundon: reverseString(req.body.foundate)};
 
   //connection.connect();
   connection.query('INSERT INTO found SET ?', founditem, function(err,res){
@@ -147,3 +147,11 @@ app.get('/data', function(req, res){
     });
 
 });
+// Reverse string
+function reverseString(str) {
+  var ptrn = /(\d{4})\-(\d{2})\-(\d{2})/;
+    if(!str || !str.match(ptrn)) {
+        return null;
+    }
+    return str.replace(ptrn, '$2-$3-$1');
+}
