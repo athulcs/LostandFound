@@ -163,3 +163,15 @@ body {
     width: 700px;
   }
 }
+
+td{
+    border:1px solid black;
+}
+
+table, tr td:last-child{
+  border:1px solid black;
+    width:1%;
+    white-space:nowrap;
+    background-color:#c6c6c6;
+    color: black;
+}
