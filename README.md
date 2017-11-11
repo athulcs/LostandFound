@@ -17,7 +17,7 @@ Do the following
 2. Create database mydb;
 3. Use mydb;
 4. create table mytable1 (email VARCHAR(20), pass VARCHAR(20));
-5. create table found (item varchar(20),descr varchar(20),fname
+5. create table found (item varchar(20),descr varchar(200),fname
 varchar(20),email varchar(20),phone varchar(20),foundon varchar(10));
 
 keep it running.
