@@ -38,10 +38,11 @@ app.get('/',function(req,res){
 
 });
 
-
 app.get('/showSignInPage',function(req,res){
     res.sendFile('signin.html',{'root': __dirname + '/templates'});
 });
+
+
 app.get('/showSignInPageretry',function(req,res){
     res.sendFile('signinretry.html',{'root': __dirname + '/templates'});
 });
@@ -66,6 +67,7 @@ app.get('/report',function(req,res){
 app.post('/myaction', function(req, res) {
 	console.log('req.body');
 	console.log(req.body);
+
 	var record = {email: req.body.email, pass: req.body.pass};
 
 	//connection.connect();
@@ -112,6 +114,7 @@ app.post('/verifyuser', function(req, res){
 app.post('/submitreport', function(req, res){
   console.log('Pushing submission to database');
   console.log(req.body);
+  alert("Your Response Has Been Recorded!");
  var founditem = {item: req.body.itname,descr: req.body.desc,fname: req.body.fname, email: req.body.email, phone: req.body.phnum ,foundon: reverseString(req.body.foundate)};
 
   //connection.connect();
