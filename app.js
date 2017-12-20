@@ -63,7 +63,9 @@ app.get('/found',function(req,res){
 app.get('/report',function(req,res){
     res.sendFile('report.html',{'root': __dirname + '/templates'});
 });
-
+app.get('/reportsubmit',function(req,res){
+    res.sendFile('reportsubmit.html',{'root': __dirname + '/templates'});
+});
 app.post('/myaction', function(req, res) {
 	console.log('req.body');
 	console.log(req.body);
@@ -114,7 +116,7 @@ app.post('/verifyuser', function(req, res){
 app.post('/submitreport', function(req, res){
   console.log('Pushing submission to database');
   console.log(req.body);
-  alert("Your Response Has Been Recorded!");
+  //alert("Your Response Has Been Recorded!");
  var founditem = {item: req.body.itname,descr: req.body.desc,fname: req.body.fname, email: req.body.email, phone: req.body.phnum ,foundon: reverseString(req.body.foundate)};
 
   //connection.connect();
@@ -127,7 +129,7 @@ app.post('/submitreport', function(req, res){
 
 
 
-  res.redirect('/report');
+  res.redirect('/reportsubmit');
   //connection.end();
 
   res.end();

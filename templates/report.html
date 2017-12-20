@@ -1,98 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="http://mec.ac.in/mec/images/favicon.png">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="http://mec.ac.in/mec/images/favicon.png">
 
-    <title>Lost&FoundMec</title>
+<title>Lost&FoundMec</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap core CSS -->
+<link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="../style/cover.css" rel="stylesheet">
-    <link href="../style/signin.css" rel="stylesheet">
-  
-  
-  </head>
-
-  <body>
-
-    <div class="site-wrapper">
-
-      <div class="site-wrapper-inner">
-
-        <div class="cover-container">
-
-          <div class="masthead clearfix">
-          
-            <div class="inner">
-              <h2 class="masthead-brand" align="middle">Report a Found Item</h2>
-               <nav>
-                <ul class="nav masthead-nav">
-                  <li><a href="/loggedin">Your Profile</a></li>
-
-                </ul>
-              </nav>
-            </div>
-          </div>
+<!-- Custom styles for this template -->
+<link href="../style/cover.css" rel="stylesheet">
+<link href="../style/signin.css" rel="stylesheet">
 
 
+</head>
 
-<form class="form-signin" action="/submitreport" method="post">
-      <div>
-        <label for="fname">Full Name:</label>
-        <input maxlength="20" style="color: black" name="fname" id="fname" placeholder="John" required="" type="text">
+<body>
+
+<div class="site-wrapper">
+
+  <div class="site-wrapper-inner">
+
+    <div class="cover-container">
+
+      <div class="masthead clearfix">
         
-        <label for="email">Email:</label>
-        <input maxlength="30" style="color: black" name="email" id="email" placeholder="john@example.com" required="" type="email">
-        <br><br>
-        <label for="phnum">Phone Number:</label>
-        <input maxlength="10" style="color: black" name="phnum" id="phnum" pattern=".{10}" required="" title="Please enter a valid number" type="text">
-      </div>
-      <br><br>
-      <label for="phnum">Item Name:</label>
-      <input maxlength="20" style="color: black" name="itname" id="itname" required="" type="text">
-      <br><br>
-      <label style="float: left" for="desc">Description of item:</label>
-      <textarea name="desc" id="desc" required="" maxlength="200" style="color: black;width:500px; height: 75px;resize: none"></textarea>
-      <br><br>
-      <label style="float: left">Date item was found:</label>
-      <div class="form-group">
-      
-        
-                    <div class="col-sm-4">
-                        <input type="date" name="foundate" id="foundate" class="form-control" >
-                    </div>
-                    <br><br>
-      <label for="agreed">I agree to the terms and conditions</label>
-      <input id="agreed" type="checkbox" required="">
+        <div class="inner">
+          <h2 class="masthead-brand" align="middle">Report a Found Item</h2>
+          <nav>
+            <ul class="nav masthead-nav">
+              <li><a href="/loggedin">Your Profile</a></li>
 
-    <button  id="btnsubmit" style="color: black " type="submit">Submit</button>
-
-
-
+            </ul>
+          </nav>
         </div>
-      </label>
-</form>
+      </div>
 
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Lost&FoundMec, by <a href="https://github.com/athulcs">@thul</a>.</p>
+
+
+      <form class="form-signin" action="/submitreport" method="post">
+        <div style="float: left" >
+          <label for="fname">Full Name:</label>
+          <input maxlength="20" style="color: black" name="fname" id="fname" placeholder="John" required="" type="text">
+          
+          <label for="email">Email:</label>
+          <input maxlength="30" style="color: black" name="email" id="email" placeholder="john@example.com" required="" type="email">
+        </div>
+        <br><br>
+        <div style="float: left" >
+
+          <label  for="phnum">Phone Number:</label>
+          <input  maxlength="10" style="color: black" name="phnum" id="phnum" pattern=".{10}" required="" title="Please enter a valid number" type="text">
+
+          <label for="phnum">Item Name:</label>
+          <input maxlength="20" style="color: black" name="itname" id="itname" required="" type="text">
+        </div>
+        <br /><br />
+        <div>
+          <label style="float: left" for="desc">Description of item:</label>
+          <textarea name="desc" id="desc" required="" maxlength="200" style="color: black;width:500px; height: 75px;resize: none;float: left"></textarea>
+          
+        </div>
+        <br /><br /><br /><br />
+        <div>
+          <label style="float: left">Date item was found:</label>
+          <div class="form-group">
+            
+            
+            <div class="col-sm-4">
+              <input type="date" name="foundate" id="foundate" class="form-control" >
             </div>
-          </div>
+          </div>           
+          <br /><br />
+          <div style="float: left" >
+            <label for="agreed">I agree to the terms and conditions</label>
+            <input id="agreed" type="checkbox" required="">
 
+            <button  id="btnsubmit" style="color: black " type="submit">Submit</button>
+
+
+
+          </div>
+          
+        </form>
+
+        <div class="mastfoot">
+          <div class="inner">
+            <p>Lost&FoundMec, by <a href="https://github.com/athulcs">@thul</a>.</p>
+          </div>
         </div>
 
       </div>
 
     </div>
 
- <script rel="stylesheet" type="text/js" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>   
-  </body>
+  </div>
+
+  <script rel="stylesheet" type="text/js" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>   
+</body>
 </html>
