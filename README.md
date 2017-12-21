@@ -21,10 +21,10 @@ Do the following
 4. ```create table mytable1 (email VARCHAR(20), pass VARCHAR(20),sid VARCHAR(20));```
 5. ```create table found (item varchar(20),descr varchar(200),fname varchar(20),email varchar(20),phone varchar(20),foundon varchar(10));```
 
-keep it running.
-Now open the nodejs project in another cmd prompt and do 
+Now start the server by executing on console ```node app.js```.
 
-```node app.js```
+Your Webapp is now Live at localhost:3000  :simple_smile:.
+
 
 ## Table Schema
 ###### mytable1
