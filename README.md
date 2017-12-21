@@ -23,7 +23,7 @@ Do the following
 
 Now start the server by executing on console ```node app.js```.
 
-Your Webapp is now Live at localhost:3000  :simple_smile:.
+Your Webapp is now Live at localhost:3000  :simple_smile:
 
 
 ## Table Schema
