@@ -64,10 +64,15 @@ app.use('/node_modules',  express.static(__dirname + '/node_modules'));
 app.use('/style',  express.static(__dirname + '/style'));
 
 app.get('/',function(req,res){
-	res.cookie('test' , '12345',{maxAge : 500000}).sendFile('home.html',{'root': __dirname + '/templates'});
 	
-  //  res.sendFile('home.html',{'root': __dirname + '/templates'});
+	
+    res.sendFile('home.html',{'root': __dirname + '/templates'});
 
+});
+
+app.get('/logout',function(req,res){
+	res.cookie("test");
+	res.redirect('/');
 });
 
 app.get('/showSignInPage',function(req,res){
@@ -88,7 +93,7 @@ app.get('/message',function(req,res){
 });
 
 app.get('/loggedin',function(req,res){
-    res.sendFile('loggedin.html',{'root': __dirname + '/templates'});
+	res.cookie('test' , '12345',{maxAge : 500000}).sendFile('loggedin.html',{'root': __dirname + '/templates'});
 });
 app.get('/found',function(req,res){
     res.sendFile('found.html',{'root': __dirname + '/templates'});
