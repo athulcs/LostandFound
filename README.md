@@ -37,6 +37,3 @@ item | descr(description) | fname | email | phone | foundon
 ---- | ------------------ | ----- | ----- | ----- | -------
 Phone | Samsung S8 plus Gold | Antony | antony12@gmail.com | 8574622164 | 12-10-2017
 
-
-Thanks, 
-Athul
