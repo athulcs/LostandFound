@@ -1,15 +1,15 @@
 # LostandFound Webapp using Nodejs and Mysql
 ## Prerequisites for the project
 
-1. Express
-2. Bootstrap
-3. body-parser
-4. node-mysql
-5. popups
-6. ejs
-7. cookie-parser
+- Express
+- Bootstrap
+- Body-parser
+- Node-mysql
+- Popups
+- Ejs
+- Cookie-parser
 
-Do npm install for all the above packages or npm install from package.json dependencies.
+Do ```npm install``` for all the above packages or npm install from package.json dependencies.
 
 Then you have to install mysql server according to your platform.
 After that,
