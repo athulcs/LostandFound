@@ -1,18 +1,48 @@
 var express = require('express');
 var app = express();
 var mysql = require('mysql');
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
 var connection = mysql.createConnection({
-
   host     : 'localhost',
   user     : 'root',
   password : 'root',
-  database : 'mydb'
+  database : 'mydb',
+  checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds. 
+  expiration: 86400000,// The maximum age of a valid session; milliseconds. 
+  createDatabaseTable: true,// Whether or not to create the sessions database table, if one does not already exist. 
+  schema: {
+        tableName: 'sessions',
+        columnNames: {
+            session_id: 'session_id',
+            expires: 'expires',
+            data: 'data'
+        }
+    }
 });
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-
+var session = require('express-session');
+var MySQLStore = require('mysql-express-session')(session);
+var options ={
+	host     : 'localhost',
+  user     : 'root',
+  password : 'root',
+  database : 'mydb',
+  checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds. 
+  expiration: 86400000,// The maximum age of a valid session; milliseconds. 
+  createDatabaseTable: true,// Whether or not to create the sessions database table, if one does not already exist. 
+  schema: {
+        tableName: 'sessions',
+        columnNames: {
+            session_id: 'session_id',
+            expires: 'expires',
+            data: 'data'
+        }
+    }
+}
 //connection.connect();
 
 connection.query('SELECT * from mytable1', function(err, rows, fields) {
@@ -34,11 +64,14 @@ app.use('/node_modules',  express.static(__dirname + '/node_modules'));
 app.use('/style',  express.static(__dirname + '/style'));
 
 app.get('/',function(req,res){
-    res.sendFile('home.html',{'root': __dirname + '/templates'});
+	res.cookie('test' , '12345',{maxAge : 500000}).sendFile('home.html',{'root': __dirname + '/templates'});
+	
+  //  res.sendFile('home.html',{'root': __dirname + '/templates'});
 
 });
 
 app.get('/showSignInPage',function(req,res){
+	console.log("Cookies :  ", req.cookies);
     res.sendFile('signin.html',{'root': __dirname + '/templates'});
 });
 
@@ -78,7 +111,7 @@ app.post('/myaction', function(req, res) {
 		console.log('Last record insert id:', res.insertId);
 
 	});
-
+	var sessionStore = new MySQLStore(options);
 	res.redirect('/message');
 	//connection.end();
 
