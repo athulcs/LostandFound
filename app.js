@@ -3,7 +3,9 @@ var app = express();
 var mysql = require('mysql');
 var cookieParser = require('cookie-parser');
 var randtoken = require('rand-token');
-app.use(cookieParser());
+var bodyParser = require('body-parser');
+
+
 var user;
 var string;
 var flag;
@@ -14,11 +16,14 @@ var connection = mysql.createConnection({
 	database : 'mydb',
 
 });
-var bodyParser = require('body-parser');
+
+
+app.use(cookieParser());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-//connection.connect();
-
+app.use('/node_modules',  express.static(__dirname + '/node_modules'));
+app.use('/style',  express.static(__dirname + '/style'));
+//SESSION CHECK FUNCTION NOT WORKING (ASYNC ISSUE)
 /*function sessionCheck(checktoken) {
 	var selectString='SELECT COUNT(email) FROM mytable1 WHERE email="'+user+'" AND sid="'+checktoken+'" ';
    connection.query(selectString, function(err, results) {
@@ -63,9 +68,7 @@ app.listen(3000,function(){
 });
 
 
-app.use('/node_modules',  express.static(__dirname + '/node_modules'));
 
-app.use('/style',  express.static(__dirname + '/style'));
 
 app.get('/',function(req,res){
 	
@@ -85,7 +88,6 @@ app.get('/logout',function(req,res){
 });
 
 app.get('/showSignInPage',function(req,res){
-	console.log("Cookies :  ", req.cookies);
 	res.sendFile('signin.html',{'root': __dirname + '/templates'});
 });
 
@@ -106,9 +108,8 @@ app.get('/loggedin',function(req,res){
 	var selectString='SELECT COUNT(email) FROM mytable1 WHERE email="'+user+'" AND sid="'+req.cookies.sid+'" ';
 	connection.query(selectString, function(err, results) {
 
-        //console.log(results);
+       
         string=JSON.stringify(results);
-        console.log(string);
         //this is a walkaround of checking if the email pass combination is 1 or not it will fail if wrong pass is given
         if (string === '[{"COUNT(email)":1}]') {
         	res.sendFile('loggedin.html',{'root': __dirname + '/templates'});
@@ -122,17 +123,16 @@ app.get('/loggedin',function(req,res){
 	
 });
 app.get('/found',function(req,res){
-	console.log(req.cookies);
 	res.sendFile('found.html',{'root': __dirname + '/templates'});
 });
 app.get('/report',function(req,res){
-	//console.log(user,req.cookies.sid,sessionCheck(req.cookies.sid));
+	
 	var selectString='SELECT COUNT(email) FROM mytable1 WHERE email="'+user+'" AND sid="'+req.cookies.sid+'" ';
 	connection.query(selectString, function(err, results) {
 
-        //console.log(results);
+       
         string=JSON.stringify(results);
-        console.log(string);
+       
         //this is a walkaround of checking if the email pass combination is 1 or not it will fail if wrong pass is given
         if (string === '[{"COUNT(email)":1}]') {
         	res.sendFile('report.html',{'root': __dirname + '/templates'});
@@ -147,10 +147,11 @@ app.get('/report',function(req,res){
 app.get('/reportsubmit',function(req,res){
 	res.sendFile('reportsubmit.html',{'root': __dirname + '/templates'});
 });
-app.post('/myaction', function(req, res) {
-	console.log('req.body');
-	console.log(req.body);
 
+
+
+
+app.post('/myaction', function(req, res) {
 	var record = {email: req.body.email, pass: req.body.pass};
 
 	//connection.connect();
@@ -168,19 +169,15 @@ app.post('/myaction', function(req, res) {
 
 app.post('/verifyuser', function(req, res){
 	console.log('checking user in database');
-	console.log(req.body.pass);
 	var selectString = 'SELECT COUNT(email) FROM mytable1 WHERE email="'+req.body.email+'" AND pass="'+req.body.pass+'" ';
 
 	connection.query(selectString, function(err, results) {
 
-		console.log(results);
 		var string=JSON.stringify(results);
-		console.log(string);
         //this is a walkaround of checking if the email pass combination is 1 or not it will fail if wrong pass is given
         if (string === '[{"COUNT(email)":1}]') {
         	user=req.body.email;
         	var token=randtoken.generate(16);
-        	console.log(token,user);
         	connection.query('UPDATE mytable1 SET sid="'+token+'"WHERE email="'+user+'"',function(err,res){
         		if(err) throw err;
         		console.log('Session id inserted in database');
@@ -204,7 +201,6 @@ app.post('/verifyuser', function(req, res){
 
 app.post('/submitreport', function(req, res){
 	console.log('Pushing submission to database');
-	console.log(req.body);
   //alert("Your Response Has Been Recorded!");
   var founditem = {item: req.body.itname,descr: req.body.desc,fname: req.body.fname, email: req.body.email, phone: req.body.phnum ,foundon: reverseString(req.body.foundate)};
 
@@ -224,6 +220,8 @@ app.post('/submitreport', function(req, res){
   res.end();
 });
 
+
+
 // **********FOUND******
 app.set('view engine', 'ejs');
 var obj = [];
@@ -232,9 +230,7 @@ app.get('/data', function(req, res){
 	var selectString='SELECT COUNT(email) FROM mytable1 WHERE email="'+user+'" AND sid="'+req.cookies.sid+'" ';
 	connection.query(selectString, function(err, results) {
 
-        //console.log(results);
         string=JSON.stringify(results);
-        console.log(string);
         //this is a walkaround of checking if the email pass combination is 1 or not it will fail if wrong pass is given
         if (string === '[{"COUNT(email)":1}]') {
         	connection.query('SELECT * FROM found', function(err, result) {
@@ -243,7 +239,6 @@ app.get('/data', function(req, res){
         			throw err;
         		} else {
         			obj = JSON.parse(JSON.stringify(result));
-        			console.log(obj);
         			res.render('found', { obj: obj });
         		}
         	});
