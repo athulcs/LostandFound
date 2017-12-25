@@ -4,7 +4,7 @@ var mysql = require('mysql');
 var cookieParser = require('cookie-parser');
 var randtoken = require('rand-token');
 var bodyParser = require('body-parser');
-
+var async = require('async');
 
 var user;
 var string;
@@ -23,27 +23,28 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use('/node_modules',  express.static(__dirname + '/node_modules'));
 app.use('/style',  express.static(__dirname + '/style'));
+
+
 //SESSION CHECK FUNCTION NOT WORKING (ASYNC ISSUE)
-/*function sessionCheck(checktoken) {
+function sessionCheck(checktoken,callback) {
 	var selectString='SELECT COUNT(email) FROM mytable1 WHERE email="'+user+'" AND sid="'+checktoken+'" ';
    connection.query(selectString, function(err, results) {
-
-        //console.log(results);
-        string=JSON.stringify(results);
+   		string=JSON.stringify(results);
         console.log(string);
+   		if(err)
+   			callback(err,null);
+        //console.log(results);
+        else if(string === '[{"COUNT(email)":1}]'){
         //this is a walkaround of checking if the email pass combination is 1 or not it will fail if wrong pass is given
-        if (string === '[{"COUNT(email)":1}]') {
-        	flag=1;
-          }
- 		else {
-          flag=0;
-        }
+        callback(null,1);
+   		 }
+   		 else{
+   		 	callback(null,0);
+   		 }
         
 });
+}
 
-
-}*/
-//
 // Reverse string
 function reverseString(str) {
 	var ptrn = /(\d{4})\-(\d{2})\-(\d{2})/;
@@ -105,47 +106,41 @@ app.get('/message',function(req,res){
 
 app.get('/loggedin',function(req,res){
 
-	var selectString='SELECT COUNT(email) FROM mytable1 WHERE email="'+user+'" AND sid="'+req.cookies.sid+'" ';
-	connection.query(selectString, function(err, results) {
-
-       
-        string=JSON.stringify(results);
-        //this is a walkaround of checking if the email pass combination is 1 or not it will fail if wrong pass is given
-        if (string === '[{"COUNT(email)":1}]') {
-        	res.sendFile('loggedin.html',{'root': __dirname + '/templates'});
-        }
-        else {
-        	res.sendFile('session.html',{'root': __dirname + '/templates'});
-        }
-        
-    });
-
-	
+	sessionCheck(req.cookies.sid,function(err,data){
+		if(err){
+			console.log("ERROR : ",err);
+				}
+		else if(data)
+			res.sendFile('loggedin.html',{'root': __dirname + '/templates'});	
+		else
+			res.sendFile('session.html',{'root': __dirname + '/templates'});
+		});
 });
-app.get('/found',function(req,res){
-	res.sendFile('found.html',{'root': __dirname + '/templates'});
-});
+
+
 app.get('/report',function(req,res){
 	
-	var selectString='SELECT COUNT(email) FROM mytable1 WHERE email="'+user+'" AND sid="'+req.cookies.sid+'" ';
-	connection.query(selectString, function(err, results) {
-
-       
-        string=JSON.stringify(results);
-       
-        //this is a walkaround of checking if the email pass combination is 1 or not it will fail if wrong pass is given
-        if (string === '[{"COUNT(email)":1}]') {
-        	res.sendFile('report.html',{'root': __dirname + '/templates'});
-        }
-        else {
-        	res.sendFile('session.html',{'root': __dirname + '/templates'});
-        }
-        
-    });
+sessionCheck(req.cookies.sid,function(err,data){
+		if(err){
+			console.log("ERROR : ",err);
+				}
+		else if(data)
+			res.sendFile('report.html',{'root': __dirname + '/templates'});	
+		else
+			res.sendFile('session.html',{'root': __dirname + '/templates'});
+		});
 
 });
 app.get('/reportsubmit',function(req,res){
-	res.sendFile('reportsubmit.html',{'root': __dirname + '/templates'});
+	sessionCheck(req.cookies.sid,function(err,data){
+		if(err){
+			console.log("ERROR : ",err);
+				}
+		else if(data)
+			res.sendFile('reportsubmit.html',{'root': __dirname + '/templates'});	
+		else
+			res.sendFile('session.html',{'root': __dirname + '/templates'});
+		});
 });
 
 
@@ -227,13 +222,12 @@ app.set('view engine', 'ejs');
 var obj = [];
 app.get('/data', function(req, res){
 	
-	var selectString='SELECT COUNT(email) FROM mytable1 WHERE email="'+user+'" AND sid="'+req.cookies.sid+'" ';
-	connection.query(selectString, function(err, results) {
-
-        string=JSON.stringify(results);
-        //this is a walkaround of checking if the email pass combination is 1 or not it will fail if wrong pass is given
-        if (string === '[{"COUNT(email)":1}]') {
-        	connection.query('SELECT * FROM found', function(err, result) {
+	sessionCheck(req.cookies.sid,function(err,data){
+		if(err){
+			console.log("ERROR : ",err);
+				}
+		else if(data)
+			connection.query('SELECT * FROM found', function(err, result) {
 
         		if(err){
         			throw err;
@@ -242,12 +236,8 @@ app.get('/data', function(req, res){
         			res.render('found', { obj: obj });
         		}
         	});
-        }
-        else {
-        	res.sendFile('session.html',{'root': __dirname + '/templates'});
-        }
-        
-    });
-
+		else
+			res.sendFile('session.html',{'root': __dirname + '/templates'});
+		});
 
 });
