@@ -19,7 +19,7 @@ Do the following
 2. ```create database mydb;```
 3. ```use mydb;```
 4. ```create table mytable1 (email VARCHAR(20), pass VARCHAR(20),sid VARCHAR(20));```
-5. ```create table found (item varchar(20),descr varchar(200),fname varchar(20),email varchar(20),phone varchar(20),foundon varchar(10));```
+5. ```create table found (no int auto_increment,item varchar(20),descr varchar(200),fname varchar(20),email varchar(20),phone varchar(20),foundon varchar(10), primary key(no));```
 
 Now start the server by executing on console ```node app.js```.
 
@@ -33,7 +33,7 @@ email | pass | sid
 hello@gmail.com | password | A5hsUHs4
 
 ###### found
-item | descr(description) | fname | email | phone | foundon
----- | ------------------ | ----- | ----- | ----- | -------
-Phone | Samsung S8 plus Gold | Antony | antony12@gmail.com | 8574622164 | 12-10-2017
+no | item | descr(description) | fname | email | phone | foundon
+-- | ---- | ------------------ | ----- | ----- | ----- | -------
+1 | Phone | Samsung S8 plus Gold | Antony | antony12@gmail.com | 8574622164 | 12-10-2017
 
