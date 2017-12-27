@@ -17,6 +17,8 @@
     <!-- Custom styles for this template -->
     <link href="../style/cover.css" rel="stylesheet">
     <link href="../style/signin.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style/style.css">
+
   
 
   </head>
@@ -45,9 +47,9 @@
 
 
           <div class="inner cover">
-              <table  id="table" style="width:100%"   border="3" >  
+              <table id="racetimes">  
         <thead>  
-            <tr>  
+            <tr id="firstrow">  
                 <th>Item</th>  
                 <th>Description</th>
                 <th>FoundBy</th>
@@ -59,12 +61,12 @@
          <tbody>  
          <% obj.forEach((post) => { %>
             <tr>  
-                <td align="left"><%= post.item %></td>  
-                <td align="left"><%= post.descr %></td>
-                <td align="left"><%= post.fname %></td>
-                <td align="left"><%= post.email %></td>
-                <td align="left"><%= post.phone %></td>
-                <td align="left"><%= post.foundon %></td>
+                <td ><%= post.item %></td>  
+                <td ><%= post.descr %></td>
+                <td ><%= post.fname %></td>
+                <td ><%= post.email %></td>
+                <td ><%= post.phone %></td>
+                <td ><%= post.foundon %></td>
             </tr>                                   
          <% }) %>   
          </tbody>  

@@ -4,7 +4,6 @@ var mysql = require('mysql');
 var cookieParser = require('cookie-parser');
 var randtoken = require('rand-token');
 var bodyParser = require('body-parser');
-var async = require('async');
 
 var user;
 var string;
